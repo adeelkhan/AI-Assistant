@@ -3,8 +3,9 @@ from langchain_core.tools import tool
 from langchain_community.tools.google_books import GoogleBooksQueryRun
 from langchain_community.utilities.google_books import GoogleBooksAPIWrapper 
 from langchain_community.utilities import OpenWeatherMapAPIWrapper
+from langchain_community.tools.riza.command import ExecPython
 from dotenv import load_dotenv
-import os
+
 
 load_dotenv()
 
@@ -19,6 +20,8 @@ book_api_tool = GoogleBooksQueryRun(api_wrapper=GoogleBooksAPIWrapper())
 # getting weather from open weather api 
 weather = OpenWeatherMapAPIWrapper()
 
+# executing python code
+exec_tool = ExecPython()
 
 @tool
 def add(a: int, b: int) -> int: 
@@ -45,9 +48,10 @@ selected_tool = {
   "multiply": multiply,
   "duckduckgo_search": duck_search,
   "googlebooks": book_api_tool,
-  "run": weather.run
+  "run": weather.run,
+  "riza_exec_python": exec_tool
 }
-chatbot_tools = [add, multiply, duck_search, book_api_tool, weather.run]
+chatbot_tools = [add, multiply, duck_search, book_api_tool, weather.run, exec_tool]
 
 
 
